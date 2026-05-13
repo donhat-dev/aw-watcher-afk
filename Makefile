@@ -1,17 +1,21 @@
 .PHONY: build test package clean
 
+PYTHON ?= python
+POETRY ?= $(PYTHON) -m poetry
+PYINSTALLER ?= $(PYTHON) -m PyInstaller
+
 build:
-	poetry install
+	$(POETRY) install
 
 test:
-	poetry run aw-watcher-afk --help  # Ensures that it at least starts
+	$(POETRY) run aw-watcher-afk --help  # Ensures that it at least starts
 	make typecheck
 
 typecheck:
-	poetry run mypy aw_watcher_afk --ignore-missing-imports
+	$(POETRY) run mypy aw_watcher_afk --ignore-missing-imports
 
 package:
-	pyinstaller aw-watcher-afk.spec --clean --noconfirm
+	$(PYINSTALLER) aw-watcher-afk.spec --clean --noconfirm
 
 clean:
 	rm -rf build dist
